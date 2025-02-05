@@ -103,4 +103,38 @@ public class Arreglo implements VectorFijo{
             return false;
         }
     }
+
+    //Me dice el tamaño del arreglo
+    @Override
+    public int capacidad() {
+        return this.capacidad;
+    }
+
+    // Me dice cuántos datos hay en el arreglo
+    @Override
+    public int cantidad() {
+        return this.indiceSuperior + 1;
+    }
+
+    private boolean validaPosicion(int indice){
+        if (indice >= 0 && indice <= this.indiceSuperior){
+            // si es válido
+            return true;
+        } else {
+            //no es válido
+            return false;
+        }
+    }
+
+    // Este metodo (acento da error) me retorna el elemento de la posición indicada
+    @Override
+    public Object obtener(int indice) {
+        if (validaPosicion(indice) == true){
+            //si existe esa posición
+            return datos[indice];
+        } else{
+            //no existe la posición
+            return null;
+        }
+    }
 }

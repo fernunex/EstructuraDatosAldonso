@@ -1,6 +1,6 @@
 package edlineal;
 
-/* Interfaze para memoria estática y dinámica */
+/* Esta interfaz maneja los métodos para memoria estática y dinámica */
 public interface ListaDatos {
     public boolean vacia();
     public Integer poner(Object valor);
