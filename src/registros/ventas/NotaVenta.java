@@ -1,6 +1,7 @@
 package registros.ventas;
 
 import edlineal.Arreglo;
+import entradasalida.Salida;
 
 public class NotaVenta {
     protected int folio;
@@ -11,13 +12,13 @@ public class NotaVenta {
     protected Arreglo cantidadArticulos;
     protected double total;
 
-    public NotaVenta(int cantidadArticulosVenta, Cliente cliente, Vendedor vendedor, String fecha){
+    public NotaVenta(int cantidadArticulosVenta, Cliente cliente, Vendedor vendedor, String fecha, int folio){
         this.clienteVenta = cliente;
         this.vendedorVenta = vendedor;
         this.fecha = fecha;
         this.articulosVenta = new Arreglo(cantidadArticulosVenta);
         this.cantidadArticulos = new Arreglo(cantidadArticulosVenta);
-        this.folio = 0;
+        this.folio = folio;
         this.total = 0.0;
     }
 
@@ -33,13 +34,38 @@ public class NotaVenta {
         }
     }
 
+    // Este metodo calcula el total de la NotaVenta
+    // Utiliza los arreglos paralelos de articulos y cantidad
     private double calcularTotal(){
-        //Recorrer los arreglos paralelos
-        //obtener los articulos y sus costos
-        //para multiplicarlos por la cantidad vendida
+        // variable de el total acumulado
+        double total = 0;
+
         for(int posicionArreglo = 0; posicionArreglo < articulosVenta.cantidad(); posicionArreglo++){
+            // Extraer el artículo guardado en el arreglo de artículo
+            Articulo articuloTemp = (Articulo) this.articulosVenta.obtener(posicionArreglo);
+            // Obtener el precio de ese artículo
+            double precioUnitario = articuloTemp.getPrecioUnitario();
+            // obtener la cantidad de elementos
+            int cantidad = (int) this.cantidadArticulos.obtener(posicionArreglo);
+            // multiplicar para obtener subtotal
+            double subtotal = precioUnitario * cantidad;
+            // acumular el subtotal dentro del total
 
         }
-        return 0.0;
+        return total;
+    }
+
+    // Metodo para imprimir la nota
+    public void imprimirNota(){
+        // Encabezado
+        Salida.salidaPorDefecto("******NOTA DE VENTA*******");
+        Salida.salidaPorDefecto("Folio: " + this.folio);
+        Salida.salidaPorDefecto("\t\t\tFecha: " + this.fecha + "\n");
+        Salida.salidaPorDefecto("Vendedor: " + this.vendedorVenta.getNombre() + "\n");
+
+
+
+
+
     }
 }
