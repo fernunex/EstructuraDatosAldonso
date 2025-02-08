@@ -111,6 +111,30 @@ public class CosechaAnual {
         return total;
     }
 
+    public String getTipoCosecha() {
+        return tipoCosecha;
+    }
+
+    public void setTipoCosecha(String tipoCosecha) {
+        this.tipoCosecha = tipoCosecha;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public Arreglo getMesesProduccion() {
+        return mesesProduccion;
+    }
+
+    public void setMesesProduccion(Arreglo mesesProduccion) {
+        this.mesesProduccion = mesesProduccion;
+    }
+
     @Override
     public String toString(){
         return anio + "";
