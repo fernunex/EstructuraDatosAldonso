@@ -1,14 +1,14 @@
 package registros.agricultura;
 
 import edlineal.Arreglo;
-import static enumerados.ConstanteAgrigultura.*;
+import static enumerados.ConstanteAgricultura.*;
 
 // Esta clase representa un registro anual de produccion
 // El arreglo mesesProduccion contiene la produccion por mes (12 meses)
 public class CosechaAnual {
-    String tipoCosecha;
-    int anio;
-    Arreglo mesesProduccion;
+    private String tipoCosecha;
+    private int anio;
+    private Arreglo mesesProduccion;
 
     public CosechaAnual(int anio, String tipoCosecha){
         this.tipoCosecha = tipoCosecha;

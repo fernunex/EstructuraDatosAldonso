@@ -1,18 +1,17 @@
 package registros.agricultura;
 
 import edlineal.Arreglo;
-import edlineal.ListaDatos;
 import registros.personas.Persona;
 
-import static enumerados.ConstanteAgrigultura.ENERO;
-import static enumerados.ConstanteAgrigultura.*;
+import static enumerados.ConstanteAgricultura.ENERO;
+import static enumerados.ConstanteAgricultura.*;
 
 // Esta clase representa a los campesinos
 // En ella se guardan cada uno de los años de produccion de sus cosechas
 // el tipo de estas cosechas son de CosechaAnual
 public class Campesino extends Persona {
-    Arreglo cosechas; // contiene CosechaAnual
-    int aniosProduccion;
+    private Arreglo cosechas; // contiene CosechaAnual
+    private int aniosProduccion;
 
     public Campesino(String nombre, int edad, char genero, int aniosProduccion){
         this.cosechas = new Arreglo(aniosProduccion);

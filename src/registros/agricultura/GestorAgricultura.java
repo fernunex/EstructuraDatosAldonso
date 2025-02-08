@@ -2,14 +2,14 @@ package registros.agricultura;
 
 import edlineal.Arreglo;
 import entradasalida.Salida;
-import static enumerados.ConstanteAgrigultura.*;
+import static enumerados.ConstanteAgricultura.*;
 
 public class GestorAgricultura {
-    Arreglo campesinos;
-    String nombreEmpresa;
-    String direccion;
-    int aniosProduccion;
-    int numeroCampesinos;
+    private Arreglo campesinos;
+    private String nombreEmpresa;
+    private String direccion;
+    private int aniosProduccion;
+    private int numeroCampesinos;
 
     public GestorAgricultura(int numeroCampesinos, String nombreEmpresa, String direccion, int aniosProduccion){
         this.campesinos = new Arreglo(numeroCampesinos);

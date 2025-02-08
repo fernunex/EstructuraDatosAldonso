@@ -1,6 +1,6 @@
 package enumerados;
 
-public class ConstanteAgrigultura {
+public class ConstanteAgricultura {
     // Meses
     public static final int TOTAL_MESES = 12;
     public static final int ENERO = 0;

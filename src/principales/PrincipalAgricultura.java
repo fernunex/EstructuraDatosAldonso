@@ -1,11 +1,9 @@
 package principales;
 
 import menus.MenuAgricultura;
-import registros.agricultura.Campesino;
-import registros.agricultura.CosechaAnual;
 import registros.agricultura.GestorAgricultura;
 
-import static enumerados.ConstanteAgrigultura.*;
+import static enumerados.ConstanteAgricultura.*;
 
 // Esta clase es la que contiene el main y corre la Practica #2
 public class PrincipalAgricultura {
@@ -105,7 +103,7 @@ public class PrincipalAgricultura {
         miGestorAgricultura.agregarCosechaAnual("Maria", 2023, "Maiz");
         miGestorAgricultura.agregarCosechaAnual("Maria", 2024, "Maiz");
 
-        //Agregamos sus producciones para cada mes de cada año
+        //Agregamos sus producciones para cada mes de cada año para cada usuario
         miGestorAgricultura.agregarProduccion("Juan", 2023, ENERO, 53.3);
         miGestorAgricultura.agregarProduccion("Juan", 2023, FEBRERO, 42.7);
         miGestorAgricultura.agregarProduccion("Juan", 2023, MARZO, 33.8);
@@ -163,10 +161,6 @@ public class PrincipalAgricultura {
         // Le pasamos el gestor a un Menu de agricultura.
         MenuAgricultura miMenu = new MenuAgricultura(miGestorAgricultura);
         miMenu.execute();
-
-
-
-
 
     }
 }

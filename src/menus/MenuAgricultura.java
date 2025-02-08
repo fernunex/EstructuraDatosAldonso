@@ -5,7 +5,7 @@ import entradasalida.Salida;
 import registros.agricultura.GestorAgricultura;
 
 public class MenuAgricultura {
-    GestorAgricultura gestorAgri;
+    private GestorAgricultura gestorAgri;
 
     public MenuAgricultura(GestorAgricultura gestorAgri){
         this.gestorAgri = gestorAgri;
@@ -26,7 +26,7 @@ public class MenuAgricultura {
     }
 
     // Este metodo ejecuta el metodo correspondiente segun la opcion elejida
-    public void ejecutarOpcion(String opcion){
+    private void ejecutarOpcion(String opcion){
         switch (opcion){
             case "A":
                 imprimirPromedioAnual();
@@ -105,7 +105,7 @@ public class MenuAgricultura {
     }
 
     // Este metodo solicita ingresar una opcion numero
-    public String leerOpcion(){
+    private String leerOpcion(){
         Salida.salidaPorDefecto("\nElige una opción: ");
         return Entrada.terminalCadenas();
     }
