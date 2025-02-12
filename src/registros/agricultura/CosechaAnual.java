@@ -1,7 +1,7 @@
 package registros.agricultura;
 
 import edlineal.Arreglo;
-import static enumerados.ConstanteAgricultura.*;
+import static tools.enumerados.ConstanteAgricultura.*;
 
 // Esta clase representa un registro anual de produccion
 // El arreglo mesesProduccion contiene la produccion por mes (12 meses)

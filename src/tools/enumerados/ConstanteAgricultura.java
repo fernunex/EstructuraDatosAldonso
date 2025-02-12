@@ -1,4 +1,4 @@
-package enumerados;
+package tools.enumerados;
 
 public class ConstanteAgricultura {
     // Meses

@@ -3,8 +3,8 @@ package registros.agricultura;
 import edlineal.Arreglo;
 import registros.personas.Persona;
 
-import static enumerados.ConstanteAgricultura.ENERO;
-import static enumerados.ConstanteAgricultura.*;
+import static tools.enumerados.ConstanteAgricultura.ENERO;
+import static tools.enumerados.ConstanteAgricultura.*;
 
 // Esta clase representa a los campesinos
 // En ella se guardan cada uno de los años de produccion de sus cosechas

@@ -2,7 +2,7 @@ package registros.agricultura;
 
 import edlineal.Arreglo;
 import entradasalida.Salida;
-import static enumerados.ConstanteAgricultura.*;
+import static tools.enumerados.ConstanteAgricultura.*;
 
 public class GestorAgricultura {
     private Arreglo campesinos;

@@ -3,7 +3,7 @@ package principales;
 import menus.MenuAgricultura;
 import registros.agricultura.GestorAgricultura;
 
-import static enumerados.ConstanteAgricultura.*;
+import static tools.enumerados.ConstanteAgricultura.*;
 
 // Esta clase es la que contiene el main y corre la Practica #2
 public class PrincipalAgricultura {
