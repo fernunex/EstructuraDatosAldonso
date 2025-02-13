@@ -355,8 +355,17 @@ public class Arreglo implements VectorFijo{
     // Este metodo insertara en la posicion indice el contenido del valor
     @Override
     public boolean poner(int indice, Object valor) {
-        //Implementar
-        return false;
+        if (lleno() == true){ // Ya esta lleno no podemos insertar nada mas
+            return false;
+        }
+        for (int indexMove = indiceSuperior; indexMove >= indice; indexMove--){
+            datos[indexMove + 1] = datos[indexMove];
+        }
+        //Insertar el dato
+        datos[indice] = valor;
+        indiceSuperior = indiceSuperior + 1;
+
+        return true;
     }
 
     // Este metodo indica si los indices inicial y final son validos

@@ -13,6 +13,62 @@ public class ArregloOrdenado extends Arreglo {
         this.orden = orden;
     }
 
+    // Este metodo substituye lista2 a el arreglo actual si cumple con el orden
+    // es decir, si esta en orden INC o DEC
+    @Override
+    public boolean substituir(ListaDatos lista2){
+        boolean inc = true;
+        boolean dec = true;
+
+        Arreglo arr2 = (Arreglo) lista2;
+
+        // Test INC
+        for (int indexTest = 0; indexTest < arr2.getIndiceSuperior(); indexTest++){
+            if (ManipuladorObjetos.compararObjetos(arr2.getDatos()[indexTest],
+                    arr2.getDatos()[indexTest + 1]) >= 0){ // No es INC
+                inc = false;
+                break;
+            }
+        }
+
+        if (inc == false){
+            // Test DEC
+            for (int indexTest = 0; indexTest < arr2.getIndiceSuperior(); indexTest++){
+                if (ManipuladorObjetos.compararObjetos(arr2.getDatos()[indexTest],
+                        arr2.getDatos()[indexTest + 1]) <= 0){ // No es DEC
+                    dec = false;
+                    break;
+                }
+            }
+        }
+
+        if (inc == false && dec == false){ // No es ni increamento ni decremento
+            return false;
+        } else if (inc == true) { // Esta en Incremento
+            orden = TipoOrdenamiento.INC;
+        } else { // Esta en decremento
+            orden = TipoOrdenamiento.DEC;
+        }
+        datos = arr2.getDatos();
+        indiceSuperior = arr2.getIndiceSuperior();
+        capacidad = arr2.getCapacidad();
+        return true;
+    }
+
+    // Este metodo trata de insertar un elemento en el indice especificado
+    // si es posible entonces retorna true, si no, false
+    @Override
+    public boolean poner(int indice, Object valor){
+        int retorno = (int) buscar(valor);
+        retorno = (retorno * -1) - 1;
+        if (retorno == indice){
+            return super.poner(indice, valor);
+        } else {
+            return false;
+        }
+
+    }
+
     // Este metodo solo deja en la lista actual aquellos que se encuentren en lista2
     @Override
     public boolean retenerLista(ListaDatos lista2){

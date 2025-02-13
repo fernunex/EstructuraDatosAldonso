@@ -105,17 +105,50 @@ public class PrincipalAOrdenado {
 //        arr1.imprimir();
 //
 //         Metodo 12 retenerLista
-        ArregloOrdenado listaINC = new ArregloOrdenado(6, INC);
-        listaINC.poner("D");
-        listaINC.poner("C");
-        listaINC.poner("B");
-        listaINC.poner("A");
-        Arreglo lista2 = new Arreglo(3);
-        lista2.poner("A");
-        lista2.poner("D");
-        lista2.poner("E");
-        listaINC.retenerLista((ListaDatos) lista2);
-        listaINC.imprimir();
+//        ArregloOrdenado listaINC = new ArregloOrdenado(6, INC);
+//        listaINC.poner("D");
+//        listaINC.poner("C");
+//        listaINC.poner("B");
+//        listaINC.poner("A");
+//        Arreglo lista2 = new Arreglo(3);
+//        lista2.poner("A");
+//        lista2.poner("D");
+//        lista2.poner("E");
+//        listaINC.retenerLista((ListaDatos) lista2);
+//        listaINC.imprimir();
+
+        // Metodo 13 y 14 poner (Arreglo y ArregloOrdenado)
+//        Arreglo miArreglo = new Arreglo(5);
+//        miArreglo.poner("A");
+//        miArreglo.poner("C");
+//        miArreglo.poner("D");
+//        miArreglo.poner(1, "B");
+//        miArreglo.imprimir();
+//        Salida.salidaPorDefecto("--------\n");
+//        ArregloOrdenado miArrOrd = new ArregloOrdenado(5, INC);
+//        miArrOrd.poner("A");
+//        miArrOrd.poner("C");
+//        miArrOrd.poner("D");
+//        Salida.salidaPorDefecto("Coloco X: " +
+//                miArrOrd.poner(1, "X") + "\n");
+//        Salida.salidaPorDefecto("Coloco B: " +
+//                miArrOrd.poner(1, "B") + "\n");
+//        miArrOrd.imprimir();
+
+
+        // Metodo 15 substituir
+        ArregloOrdenado miArrOrd = new ArregloOrdenado(3, INC);
+        miArrOrd.poner("A");
+        miArrOrd.poner("C");
+        miArrOrd.poner("D");
+        Arreglo miArreglo = new Arreglo(5);
+        miArreglo.poner("Z");
+        miArreglo.poner("Y");
+        miArreglo.poner("X");
+        miArreglo.poner("W");
+        Salida.salidaPorDefecto("La sustituyo: " +
+                miArrOrd.substituir((ListaDatos) miArreglo) + "\n");
+        miArrOrd.imprimir();
 
 
 
