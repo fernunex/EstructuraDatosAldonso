@@ -1,5 +1,6 @@
 package edlineal;
 
+
 /* Esta interfaz maneja los métodos para memoria estática y dinámica */
 public interface ListaDatos {
     public boolean vacia();
@@ -22,4 +23,9 @@ public interface ListaDatos {
     public ListaDatos clonar();
     public ListaDatos subLista(int indiceInicial, int indiceFinal);
     public boolean substituir(ListaDatos lista2);
+    public ListaDatos arregloDesordenado();
+    public boolean esSublista(ListaDatos lista2);
+    public boolean modificarLista(ListaDatos lista2, ListaDatos lista2Nuevos);
+    public boolean retenerLista(ListaDatos lista2);
+    public boolean poner(int indice, Object valor);
 }

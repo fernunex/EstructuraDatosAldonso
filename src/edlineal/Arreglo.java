@@ -221,9 +221,12 @@ public class Arreglo implements VectorFijo{
             Object datoAux;
 
             for (int paso = 0; paso < numeroPasos; paso++){
-                datoAux = obtener(indexAuxSup);
-                modificar(indexAuxSup, obtener(indexAuxInf));
-                modificar(indexAuxInf, datoAux);
+//                datoAux = obtener(indexAuxSup);
+                datoAux = datos[indexAuxSup];
+//                modificar(indexAuxSup, obtener(indexAuxInf));
+                datos[indexAuxSup] = datos[indexAuxInf];
+//                modificar(indexAuxInf, datoAux);
+                datos[indexAuxInf] = datoAux;
 
                 indexAuxSup--;
                 indexAuxInf++;
@@ -329,6 +332,33 @@ public class Arreglo implements VectorFijo{
         return false;
     }
 
+    @Override
+    public ListaDatos arregloDesordenado() {
+        return null;
+    }
+
+    @Override
+    public boolean esSublista(ListaDatos lista2) {
+        return false;
+    }
+
+    @Override
+    public boolean modificarLista(ListaDatos lista2, ListaDatos lista2Nuevos) {
+        return false;
+    }
+
+    @Override
+    public boolean retenerLista(ListaDatos lista2) {
+        return false;
+    }
+
+    // Este metodo insertara en la posicion indice el contenido del valor
+    @Override
+    public boolean poner(int indice, Object valor) {
+        //Implementar
+        return false;
+    }
+
     // Este metodo indica si los indices inicial y final son validos
     private boolean indicesValidos(int indexIni, int indexFin){
         if ((indexIni < indexFin) == true && (indexFin <= this.indiceSuperior) == true){
@@ -374,7 +404,8 @@ public class Arreglo implements VectorFijo{
             Object respaldo = obtener(indice);
 
             for (int modificacion = indice; modificacion < indiceSuperior; modificacion++){
-                modificar(modificacion, obtener(modificacion +1));
+//                modificar(modificacion, obtener(modificacion +1));
+                datos[modificacion] = datos[modificacion + 1];
             }
 
             this.indiceSuperior--;
