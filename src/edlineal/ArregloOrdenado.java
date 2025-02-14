@@ -287,19 +287,4 @@ public class ArregloOrdenado extends Arreglo {
             return posicionB + 1; //si se encontro
         }
     }
-
-//    public Object buscar(Object valor) {
-//        int posicionB = 0;
-//        while ((posicionB <= indiceSuperior) && (ManipuladorObjetos.compararObjetos(valor, datos[posicionB]) > 0)) {
-//            if()
-                // original > 0
-//                posicionB++;
-//        }
-//        if (posicionB > indiceSuperior || ManipuladorObjetos.compararObjetos(valor, datos[posicionB]) < 0) {
-            // original < 0
-//            return (posicionB + 1) * -1; //no se encontro
-//        } else {
-//            return posicionB + 1; //si se encontro
-//        }
-//    }
 }
