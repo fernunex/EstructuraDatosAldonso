@@ -137,20 +137,29 @@ public class PrincipalAOrdenado {
 
 
         // Metodo 15 substituir
-        ArregloOrdenado miArrOrd = new ArregloOrdenado(3, INC);
-        miArrOrd.poner("A");
-        miArrOrd.poner("C");
-        miArrOrd.poner("D");
-        Arreglo miArreglo = new Arreglo(5);
-        miArreglo.poner("Z");
-        miArreglo.poner("Y");
-        miArreglo.poner("X");
-        miArreglo.poner("W");
-        Salida.salidaPorDefecto("La sustituyo: " +
-                miArrOrd.substituir((ListaDatos) miArreglo) + "\n");
-        miArrOrd.imprimir();
+//        ArregloOrdenado miArrOrd = new ArregloOrdenado(3, INC);
+//        miArrOrd.poner("A");
+//        miArrOrd.poner("C");
+//        miArrOrd.poner("D");
+//        Arreglo miArreglo = new Arreglo(5);
+//        miArreglo.poner("Z");
+//        miArreglo.poner("Y");
+//        miArreglo.poner("X");
+//        miArreglo.poner("W");
+//        Salida.salidaPorDefecto("La sustituyo: " +
+//                miArrOrd.substituir((ListaDatos) miArreglo) + "\n");
+//        miArrOrd.imprimir();
 
-
+        // Metodo 8 Rellenar
+        ArregloOrdenado arrEnteros = new ArregloOrdenado(
+                5, DEC);
+        ArregloOrdenado arrChars = new ArregloOrdenado(
+                6, INC);
+        arrEnteros.rellenar(-5);
+        arrChars.rellenar('D');
+        arrEnteros.imprimir();
+        Salida.salidaPorDefecto("--------\n");
+        arrChars.imprimir();
 
     }
 }

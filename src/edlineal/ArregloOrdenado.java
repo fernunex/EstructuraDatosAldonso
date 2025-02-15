@@ -287,4 +287,55 @@ public class ArregloOrdenado extends Arreglo {
             return posicionB + 1; //si se encontro
         }
     }
+
+    // Sobreescribiendo los metodos del padre para que no afecten a esta clase
+    @Override
+    public ListaDatos clonar() {
+        return null;
+    }
+
+    // Este metodo
+    @Override
+    public void rellenar(Object valor) {
+        super.vaciar();
+        if (valor instanceof Number){
+            if (capacidad < Math.abs((int) valor)){ // El valor es mas grande que la capacidad
+                return;
+            } else {
+                // Entonces si cabe y continuamos
+                int valorArgumento = (int) valor;
+                if (valorArgumento < 0){ // El valor es negativo, entonces debemos subir
+                    for (int valorPoner = valorArgumento; valorPoner <= -1; valorPoner++){
+
+                        poner(valorPoner);
+                    }
+                } else { // El valor es positivo, por lo tanto debemos bajar
+                    for (int valorPoner = valorArgumento; valorPoner >= 1; valorPoner--){
+                        poner(valorPoner);
+                    }
+                }
+
+            }
+        } else if (valor instanceof Character) {
+            char valorArgumento = (char) valor;
+            if (capacidad < (valorArgumento - 'A')){// No cabe
+                return;
+            } else {
+                for (int valorPoner = valorArgumento; valorPoner >= 'A'; valorPoner--){
+                    poner((char) valorPoner);
+                }
+            }
+        } else {
+            poner(valor);
+        }
+    }
+
+    @Override
+    public void vaciar() {
+    }
+
+    @Override
+    public boolean esIgual(ListaDatos lista2) {
+        return false;
+    }
 }
