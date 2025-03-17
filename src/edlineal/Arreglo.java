@@ -521,4 +521,42 @@ public class Arreglo implements VectorFijo{
             return null;
         }
     }
+
+    // Este metodo retorna un Arreglo con la sublista de los elementos indicados en el
+    // arreglo listaIndices.
+    public Arreglo subLista(ArregloNumerico listaIndices){
+        // Validar todos los indices
+        if (vacia() == false){
+
+            // Validando los indices
+            for (int indexIndice = 0; indexIndice <= listaIndices.getIndiceSuperior(); indexIndice++){
+                if (validarIndice(listaIndices.obtenerDouble(indexIndice).intValue()) == false){ // Encontro un indice
+                                                                                                // inválido
+                    return null;
+                }
+            }
+
+            // Si llega hasta aqui, entonces todos los indices son validos.
+            Arreglo subArreglo = new Arreglo(listaIndices.getIndiceSuperior() + 1);
+
+            for (int indexIndice = 0; indexIndice <= listaIndices.getIndiceSuperior(); indexIndice++){
+                subArreglo.poner(obtener(listaIndices.obtenerDouble(indexIndice).intValue()));
+            }
+            return subArreglo;
+        } else { // esta vacia, entonces no podemos hacer mucho
+            return null;
+        }
+    }
+
+
+    // Este metodo retorna true si el indice pasado como argumento es valido en el arreglo actual
+    // falso de otra manera.
+    protected boolean validarIndice(int indice){
+        if (indice >= 0 && indice <= indiceSuperior){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
