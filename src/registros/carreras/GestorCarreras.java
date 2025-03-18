@@ -15,7 +15,7 @@ public class GestorCarreras {
         corredores = new Arreglo(numCorredores);
         eventos = new Arreglo(numEventos);
         anios = new Arreglo(numAnios);
-        kilometrosRecorridos = new Arreglo3D(numEventos, numCorredores, numAnios, 0.0);
+        kilometrosRecorridos = new Arreglo3D(numCorredores, numEventos, numAnios, 0.0);
     }
 
     // Metodo para agregar corredores
@@ -119,7 +119,7 @@ public class GestorCarreras {
             int indiceEvento = (int) indicesKms.obtener(1);
             int indiceCorredor = (int) indicesKms.obtener(0);
             int indiceAnio = (int) indicesKms.obtener(2);
-            return kilometrosRecorridos.cambiarCelda(indiceEvento, indiceCorredor, indiceAnio, km);
+            return kilometrosRecorridos.cambiarCelda(indiceCorredor, indiceEvento, indiceAnio, km);
         } else {
             // El arreglo de indices es nulo, no podemos hacer nada
             return false;
@@ -139,6 +139,77 @@ public class GestorCarreras {
         Salida.salidaPorDefecto("Kms: \n");
         kilometrosRecorridos.imprimirXColumnas();
         Salida.salidaPorDefecto("\n");
-
     }
+
+    // Devuelve todos los kilometros del corredor (la suma)
+    public Double kilometroXCorredor(int noCorredor, Arreglo carrerasParticipantes, Arreglo aniosParticipantes){
+        // Se tiene el cálculo de un solo corredor
+        // Se tiene que calcular de varias carreras
+
+        Double kmCorredor = 0.0;
+
+        // carrerasParticipantes guarda solamente los nombres de los eventos
+
+        for (int cadaCarrera = 0; cadaCarrera < carrerasParticipantes.cantidad(); cadaCarrera++){
+            // Tengo que ir sumando todos los kilómetros de cada carrera de un corredor en ciertos años
+            String carreraTemp = (String) carrerasParticipantes.obtener(cadaCarrera);
+            Double kmCarreraEvento = kilometrosXCorredorXCarrera(noCorredor, carreraTemp, aniosParticipantes);
+
+
+            // Verificamos y Acumulamos los kms de cada carrera para ese corredor
+            if (kmCarreraEvento == null){
+                return null;
+            } else {
+                kmCorredor = kmCorredor + kmCarreraEvento;
+            }
+        }
+        return kmCorredor;
+    }
+
+    // Obtiene los km de un corredor de una carrera pero de todos los anios
+    public Double kilometrosXCorredorXCarrera(int noCorredor, String carreraParticipante, Arreglo aniosParticipantes){
+
+        Double kmAnio = 0.0;
+
+        // Recorremos el arreglo de los anios
+        for (int cadaAnio = 0; cadaAnio < aniosParticipantes.cantidad(); cadaAnio++){
+            // Obtengo una celda del cubo con kms de fila, col, prof
+            // Necesito los 3 datos indirectos de noCoorredor, nombre del evento y el año
+            int anioTemp = (int) aniosParticipantes.obtener(cadaAnio);
+
+            // Obtener los indices (datos directos del cubo)
+            // de los tres datos indirectos
+            Arreglo indicesDirecto = buscarIndicesKms(noCorredor, carreraParticipante, anioTemp);
+
+            // Ahora puedo obtener de una celda los kms
+            Double kmsCelda = (Double) kilometrosRecorridos.obtenerCelda(
+                    (int) indicesDirecto.obtener(0), // Corredor
+                    (int) indicesDirecto.obtener(1), // Evento
+                    (int) indicesDirecto.obtener(2) // Anio
+            );
+
+            if (kmsCelda == null){
+                return null;
+            } else {
+                // acumulo los kms de cada anio
+                kmAnio = kmAnio + kmsCelda;
+            }
+
+        }
+        return kmAnio;
+    }
+
+
+
 }
+
+// Realizar un programa que trate de facilitar responder estas preguntas
+// Tratar de realizar un programa que resuelva la mayor cantidad de preguntas
+// Esto se logra con la modularidad
+
+// Un usuario quiere obtener información de kilometros recorridos usando consultas como esta:
+// - Obtener la cantidad de kilómetros recorridos por juan en el año 2010, 2011, 2012 y 2014 en la carrera
+//   de "Bicentenario".
+
+// - Obtener la cantidad de kilómetros recorridos de Pedro en el año 1999 en las carreras de "Bicentenario" y
+//   "Carrera Max"
