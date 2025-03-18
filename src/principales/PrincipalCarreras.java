@@ -1,5 +1,7 @@
 package principales;
 
+import edlineal.Arreglo;
+import entradasalida.Salida;
 import registros.carreras.GestorCarreras;
 
 public class PrincipalCarreras {
@@ -28,6 +30,24 @@ public class PrincipalCarreras {
 
         carreras.agregarKilometros(90.0, 102,
                 "Bicentenario", 2010);
+        carreras.agregarKilometros(76.5, 102,
+                "Calma AC", 2010);
+        carreras.agregarKilometros(7.5, 102,
+                "Calma AC", 1996);
+
         carreras.mostrarDatos();
+
+        //--------------
+
+        Arreglo carrerasC = new Arreglo(2);
+        carrerasC.poner("Bicentenario");
+        carrerasC.poner("Calma AC");
+
+        Arreglo aniosC = new Arreglo(2);
+        aniosC.poner(2010);
+        aniosC.poner(1996);
+
+        Double kms = carreras.kilometroXCorredor(102, carrerasC, aniosC);
+        Salida.salidaPorDefecto("Recorridos: " + kms);
     }
 }
