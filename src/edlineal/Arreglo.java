@@ -397,6 +397,15 @@ public class Arreglo implements VectorFijo{
 
     }
 
+    @Override
+    public Object verFinal() {
+        if (vacia() == false){
+            return this.datos[this.indiceSuperior];
+        } else {
+            return null;
+        }
+    }
+
     // Este metodo indica si los indices inicial y final son validos
     private boolean indicesValidos(int indexIni, int indexFin){
         if ((indexIni < indexFin) == true && (indexFin <= this.indiceSuperior) == true){

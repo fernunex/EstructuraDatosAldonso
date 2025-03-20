@@ -29,4 +29,6 @@ public interface ListaDatos {
     public boolean retenerLista(ListaDatos lista2);
     public boolean poner(int indice, Object valor);
     public void rellenar(Object valor);
+
+    public Object verFinal();
 }

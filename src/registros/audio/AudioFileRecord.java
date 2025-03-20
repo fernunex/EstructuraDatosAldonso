@@ -2,6 +2,7 @@ package registros.audio;
 
 import java.io.*;
 
+import edlineal.Arreglo;
 import edlineal.ArregloNumerico;
 import registros.audio.wavfile.*;
 
@@ -85,7 +86,6 @@ public class AudioFileRecord {
                 buffer2 = object2double(bufferArr.leerArreglo());
 
             wavFileW.writeFrames(buffer2, (int) numFrames);
-
             // Cerramos el archivo
             wavFileW.close();
         } catch (Exception e) {
@@ -126,23 +126,32 @@ public class AudioFileRecord {
     // Este metodo le aumenta el volumen al audio
     public void subirVolumen(int intensidad){
         bufferArr.porEscalar((1 + ((double) intensidad)/100));
-
-//        for (int indexMuestra = 0; indexMuestra < bufferArr.getCapacidad(); indexMuestra++){
-//            double actual = object2double(bufferArr.obtener(indexMuestra));
-//
-//            bufferArr.modificar(indexMuestra, actual * (1 + ((double) intensidad)/100));
-//        }
     }
 
     // Este metodo le disminuye el volumen al audio
     public void bajarVolumen(int intensidad){
         bufferArr.porEscalar((1 - ((double) intensidad)/100));
-//        for (int indexMuestra = 0; indexMuestra < bufferArr.getCapacidad(); indexMuestra++){
-//            double actual = object2double(bufferArr.obtener(indexMuestra));
-//
-//            bufferArr.modificar(indexMuestra, actual * (1 - ((double) intensidad)/100));
-//
-//        }
+    }
+
+    // Este metodo acelera el audio 1x (igual), 2x, 3x, etc
+    public void acelerarAudio(int incremento){
+        int currentIndex = 0;
+
+        // Redondeo hacia abajo
+        int cantidadMuestras = bufferArr.cantidad()/incremento;
+        double sumaMuestras;
+
+        ArregloNumerico audioAcelerado = new ArregloNumerico(cantidadMuestras);
+
+        for (int indexMuestra = 0; indexMuestra < cantidadMuestras; indexMuestra++){
+            // Sumamos las muestras segun su aceleracion
+            // 2x = 2 muestras / 2 (para obtener su promedio)
+            sumaMuestras = 0;
+            for (int indexNextMues = 0; indexNextMues < incremento; indexNextMues++){
+                sumaMuestras += (double) bufferArr.obtener(currentIndex + indexNextMues);
+
+            }
+        }
     }
 
 
