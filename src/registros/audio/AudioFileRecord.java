@@ -2,7 +2,8 @@ package registros.audio;
 
 import java.io.*;
 
-import audio.wavfile.*;
+import edlineal.ArregloNumerico;
+import registros.audio.wavfile.*;
 
 public class AudioFileRecord {
     private long numFrames;  //numero de tramas, número de muestras totales del archivo por canal
@@ -16,6 +17,7 @@ public class AudioFileRecord {
     private String nomArchivo; //nombre archivo (uno.wav)
     private String nomRuta;    //ruta donde esta guardado el archivo (/home)
     private int validBits;     //bits usados para la discretización
+    private ArregloNumerico bufferArr; // audio modificado de tipo ArregloNumerico
 
     public AudioFileRecord(String archivo) {
         this.archivo = archivo;
@@ -34,6 +36,7 @@ public class AudioFileRecord {
         validBits=wavFileR.getValidBits();
     }
 
+    // Metodos acoplados
     public void leerAudio() {
         try {
 
@@ -42,7 +45,7 @@ public class AudioFileRecord {
 
             // Crea buffer de origen y de temporal
             buffer = new double[(int) numFrames * numChannels];
-            buffer2 = new double[buffer.length];
+            //buffer2 = new double[buffer.length];
 
             //tramas leidas
             int framesRead;
@@ -51,9 +54,14 @@ public class AudioFileRecord {
             framesRead = wavFileR.readFrames(buffer, (int) numFrames);
 
             // Recorrer todas las tramas del archivo y guardarlas en el arreglo.
-            for (int s = 0; s < framesRead * numChannels; s++) {
-                buffer2[s] = buffer[s];
-            }
+            //for (int s = 0; s < framesRead * numChannels; s++) {
+            //    buffer2[s] = buffer[s];
+            //}
+
+            // Creamos el Arreglo Numerico y lo guardamos ahi
+            bufferArr = new ArregloNumerico(buffer.length);
+
+            bufferArr.guardarDatos(double2object(buffer));
 
             // Cierra archivo
             wavFileR.close();
@@ -62,7 +70,7 @@ public class AudioFileRecord {
         }
     }
 
-    public void EscribirAudio() {
+    public void escribirAudio() {
         try {
 
             //Crear el apuntador al archivo para guardar datos del temporal
@@ -72,6 +80,10 @@ public class AudioFileRecord {
             wavFileW = WavFile.newWavFile(file, numChannels, numFrames, validBits, sampleRate);
 
             // Escribimos los frames o muestras totales del temporal
+
+                // Extraemos el audio modificado
+                buffer2 = object2double(bufferArr.leerArreglo());
+
             wavFileW.writeFrames(buffer2, (int) numFrames);
 
             // Cerramos el archivo
@@ -80,4 +92,58 @@ public class AudioFileRecord {
             System.err.println(e);
         }
     }
+
+    public ArregloNumerico getBufferArr(){
+        return this.bufferArr;
+    }
+
+    // Funciones auxiliares
+    private Object[] double2object(double arr[]){
+        Object[] datosObjeto = new Object[arr.length];
+
+        for (int indexBuffer = 0; indexBuffer < datosObjeto.length; indexBuffer++) {
+            datosObjeto[indexBuffer] = arr[indexBuffer];
+        }
+
+        return datosObjeto;
+    }
+
+    private double[] object2double(Object arr[]){
+        double[] datosDouble = new double[arr.length];
+
+        for (int indexBuffer = 0; indexBuffer < datosDouble.length; indexBuffer++) {
+            datosDouble[indexBuffer] = Double.parseDouble(arr[indexBuffer] + "");
+        }
+        return datosDouble;
+    }
+
+    private double object2double(Object obj){
+        return (double) obj;
+    }
+
+    // Modificadores del audio
+
+    // Este metodo le aumenta el volumen al audio
+    public void subirVolumen(int intensidad){
+        bufferArr.porEscalar((1 + ((double) intensidad)/100));
+
+//        for (int indexMuestra = 0; indexMuestra < bufferArr.getCapacidad(); indexMuestra++){
+//            double actual = object2double(bufferArr.obtener(indexMuestra));
+//
+//            bufferArr.modificar(indexMuestra, actual * (1 + ((double) intensidad)/100));
+//        }
+    }
+
+    // Este metodo le disminuye el volumen al audio
+    public void bajarVolumen(int intensidad){
+        bufferArr.porEscalar((1 - ((double) intensidad)/100));
+//        for (int indexMuestra = 0; indexMuestra < bufferArr.getCapacidad(); indexMuestra++){
+//            double actual = object2double(bufferArr.obtener(indexMuestra));
+//
+//            bufferArr.modificar(indexMuestra, actual * (1 - ((double) intensidad)/100));
+//
+//        }
+    }
+
+
 }

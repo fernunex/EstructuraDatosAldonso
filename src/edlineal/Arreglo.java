@@ -14,6 +14,28 @@ public class Arreglo implements VectorFijo{
         this.indiceSuperior = -1;
     }
 
+    // ---------- Para la practica del audio se añadieron estos metodos
+    // Este metodo sobreescribe datos[] con datosNew[]
+    public void guardarDatos(Object datosNew[]){
+        this.datos = datosNew;
+        this.capacidad = datosNew.length;
+        this.indiceSuperior = this.capacidad - 1;
+    }
+
+    // Este metodo devuelve una copia de datos[]
+    public Object[] leerArreglo(){
+
+        Object[] datosCopy = new Object[this.indiceSuperior + 1];
+
+        for (int numIndex = 0; numIndex <= this.indiceSuperior; numIndex++) {
+            datosCopy[numIndex] = this.datos[numIndex];
+        }
+
+        return datosCopy;
+    }
+
+
+    // --------------------------------- Fin
     @Override
     public boolean vacia() {
         if (indiceSuperior == -1){
@@ -48,6 +70,8 @@ public class Arreglo implements VectorFijo{
             return recorredor;
         }
     }
+
+
 
     @Override
     public void imprimir() {
