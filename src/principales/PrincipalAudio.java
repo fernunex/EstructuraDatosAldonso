@@ -40,5 +40,26 @@ public class PrincipalAudio {
 //                PATH_TXT_AUDIOS +
 //                        "pruebaBajar.txt");
 
+//        Metodo 9 Acelerar audio --------------------------
+//        miAudio.acelerarAudio(2);
+//
+//        ArregloNumerico miAudioArr;
+//        miAudioArr = miAudio.getBufferArr();
+//
+//        miAudio.escribirAudio();
+//        ArchivoTextoD.escribir(miAudioArr,
+//                PATH_TXT_AUDIOS +
+//                        "pruebaAcelerado.txt");
+
+        //        Metodo 10 Decrementar audio --------------------------
+//        miAudio.retrasarAudio(2);
+//
+//        ArregloNumerico miAudioArr;
+//        miAudioArr = miAudio.getBufferArr();
+//
+//        miAudio.escribirAudio();
+//        ArchivoTextoD.escribir(miAudioArr,
+//                PATH_TXT_AUDIOS +
+//                        "pruebaRetrasado.txt");
     }
 }

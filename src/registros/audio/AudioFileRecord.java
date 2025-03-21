@@ -139,18 +139,56 @@ public class AudioFileRecord {
 
         // Redondeo hacia abajo
         int cantidadMuestras = bufferArr.cantidad()/incremento;
-        double sumaMuestras;
+        double sumaMuestras, promedioMuestras;
 
         ArregloNumerico audioAcelerado = new ArregloNumerico(cantidadMuestras);
 
-        for (int indexMuestra = 0; indexMuestra < cantidadMuestras; indexMuestra++){
+        for (int indexMuestra = 0; indexMuestra <= cantidadMuestras - incremento; indexMuestra++){
             // Sumamos las muestras segun su aceleracion
             // 2x = 2 muestras / 2 (para obtener su promedio)
             sumaMuestras = 0;
             for (int indexNextMues = 0; indexNextMues < incremento; indexNextMues++){
                 sumaMuestras += (double) bufferArr.obtener(currentIndex + indexNextMues);
 
+                currentIndex++;
             }
+
+            promedioMuestras = sumaMuestras / incremento;
+            audioAcelerado.poner(promedioMuestras);
+        }
+
+        bufferArr = audioAcelerado;
+        System.out.println(bufferArr.getCapacidad());
+    }
+
+    // Este metodo realentiza el audio 2x, 4x, 8x, etc
+    public void retrasarAudio(int decremento){
+        int vecesEjecutar = decremento / 2;
+        ArregloNumerico audioDecrementado;
+        int capacidadActual, capacidadNueva;
+        double promedio, muestra, muestra_next;
+
+        for (int indexVeces = 0; indexVeces < vecesEjecutar; indexVeces++){
+            capacidadActual = bufferArr.capacidad();
+            capacidadNueva = (capacidadActual * 2) - 1;
+
+            audioDecrementado = new ArregloNumerico(capacidadNueva);
+
+            for (int indexMuestra = 0; indexMuestra < capacidadActual - 1; indexMuestra++){
+                // Le sacamos el promedio de la muestra n y n+1
+                muestra = (double) bufferArr.obtener(indexMuestra);
+                muestra_next = (double) bufferArr.obtener(indexMuestra + 1);
+                promedio = (muestra + muestra_next) / 2;
+
+                audioDecrementado.poner(muestra);
+                audioDecrementado.poner(promedio);
+            }
+
+            // Ponemos la ultima muestra en el audioDecrementado
+            muestra = (double) bufferArr.obtener(capacidadActual - 1);
+            audioDecrementado.poner(muestra);
+            bufferArr = audioDecrementado;
+            numFrames = bufferArr.capacidad();
         }
     }
 
