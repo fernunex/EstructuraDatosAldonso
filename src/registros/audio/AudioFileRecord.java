@@ -1,10 +1,13 @@
 package registros.audio;
 
 import java.io.*;
+import java.time.chrono.MinguoDate;
 
 import edlineal.Arreglo;
 import edlineal.ArregloNumerico;
 import registros.audio.wavfile.*;
+
+import static tools.funciones.Casting.*;
 
 public class AudioFileRecord {
     private long numFrames;  //numero de tramas, número de muestras totales del archivo por canal
@@ -97,31 +100,28 @@ public class AudioFileRecord {
         return this.bufferArr;
     }
 
-    // Funciones auxiliares
-    private Object[] double2object(double arr[]){
-        Object[] datosObjeto = new Object[arr.length];
 
-        for (int indexBuffer = 0; indexBuffer < datosObjeto.length; indexBuffer++) {
-            datosObjeto[indexBuffer] = arr[indexBuffer];
-        }
-
-        return datosObjeto;
-    }
-
-    private double[] object2double(Object arr[]){
-        double[] datosDouble = new double[arr.length];
-
-        for (int indexBuffer = 0; indexBuffer < datosDouble.length; indexBuffer++) {
-            datosDouble[indexBuffer] = Double.parseDouble(arr[indexBuffer] + "");
-        }
-        return datosDouble;
-    }
-
-    private double object2double(Object obj){
-        return (double) obj;
-    }
 
     // Modificadores del audio
+
+    // Este metodo aplica un preenfasis al audio
+    public void preEnfasis(double alpha){
+        ArregloNumerico arr2 = new ArregloNumerico(bufferArr.capacidad());
+
+        double muestra_n, muestra_n_anterior;
+        muestra_n = (double) bufferArr.obtener(0);
+        arr2.poner(muestra_n);
+
+        for (int indexMuestra = 1; indexMuestra < bufferArr.capacidad(); indexMuestra++){
+            muestra_n = (double) bufferArr.obtener(indexMuestra);
+            muestra_n_anterior = (double) bufferArr.obtener(indexMuestra - 1);
+
+            arr2.poner(muestra_n + (muestra_n_anterior * alpha));
+        }
+
+        bufferArr = arr2;
+
+    }
 
     // Este metodo le aumenta el volumen al audio
     public void subirVolumen(int intensidad){
@@ -190,6 +190,94 @@ public class AudioFileRecord {
             bufferArr = audioDecrementado;
             numFrames = bufferArr.capacidad();
         }
+    }
+
+    // Este metodo invierte el audio en el eje x
+    public void invertirAudioX(){
+        bufferArr.invertir();
+    }
+
+    // Este metodo invierte el audio en el eje y
+    public void invertirAudioY(){
+        bufferArr.porEscalar(-1);
+    }
+
+    // Este metodo calcula la energia del audio
+    public double calcularEnergia(){
+        double energia = 0;
+        double muestra;
+
+        for (int indexMuestra = 0; indexMuestra < bufferArr.capacidad(); indexMuestra++){
+            muestra = (double) bufferArr.obtener(indexMuestra);
+            energia += Math.pow(muestra, 2);
+        }
+
+        return energia;
+    }
+
+    // Este metodo retorna el promedio de las muestras positivas y negativas por separado
+    // En la posicion 0 guarda las muestras positivas y en la posicion 1 las negativas.
+    public ArregloNumerico promedioMuestrasSilencio(){
+        int muestrasPositivas = 0;
+        int muestrasNegativas = 0;
+        double sumaPositivas = 0.0;
+        double sumaNegativas = 0.0;
+        double muestra;
+
+        for (int indexMuestra = 0; indexMuestra < bufferArr.capacidad(); indexMuestra++){
+            muestra = (double) bufferArr.obtener(indexMuestra);
+
+            // Ademas de ser menores a 0.5 y mayores a -0.5 para disminuir los outliers
+            if (muestra >= 0 && muestra < 0.6){ // Es positiva
+                sumaPositivas += muestra;
+                muestrasPositivas++;
+            } else { // Es negativa
+                if (muestra > -0.6) {
+                    sumaNegativas += muestra;
+                    muestrasNegativas++;
+                }
+            }
+        }
+
+        ArregloNumerico promedios = new ArregloNumerico(2);
+        promedios.poner(sumaPositivas/muestrasPositivas);
+        promedios.poner(sumaNegativas/muestrasNegativas);
+
+        return promedios;
+    }
+
+    // Este metodo elimina los silencios del audio
+    // Tomaremos como silencio los siguientes valores sacados de un audio silencioso y promediando
+    // sus ondas negativas y positivas
+    //Promedio Positivo: 0.25
+    //Promedio Negativo: -0.4
+    public void eliminarSilencio(){
+        double promedioPositivo = 0.25;
+        double promedioNegativo = -0.4;
+        double muestra;
+
+        ArregloNumerico audio2 = new ArregloNumerico(bufferArr.capacidad());
+
+        int conteoMuestrasSonido = 0;
+
+        for (int indexMuestra = 0; indexMuestra < bufferArr.capacidad(); indexMuestra++){
+            muestra = (double) bufferArr.obtener(indexMuestra);
+
+            if (muestra >= 0 && muestra > promedioPositivo){ // si cataloga como no silencio
+                audio2.poner(muestra);
+                conteoMuestrasSonido++;
+            } else {
+                if (muestra < promedioNegativo){ // si catalogo como no silencio
+                    audio2.poner(muestra);
+                    conteoMuestrasSonido++;
+                }
+            }
+        }
+
+        audio2.redimensionar(conteoMuestrasSonido);
+        numFrames = conteoMuestrasSonido;
+        bufferArr = audio2;
+
     }
 
 
