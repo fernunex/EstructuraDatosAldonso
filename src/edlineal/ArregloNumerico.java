@@ -50,6 +50,11 @@ public class ArregloNumerico extends Arreglo{
     }
 
     @Override
+    public Double obtener(int indice) {
+        return (double) super.obtener(indice);
+    }
+
+    @Override
     // Modifica el vlaorViejo por el valorNuevo una cantidad "numVeces"
     public boolean modificar(Object valorViejo, Object valorNuevo, int numVeces) {
         if ((isNumero(valorViejo) == true) && isNumero(valorNuevo) == true){

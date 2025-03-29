@@ -6,8 +6,8 @@ import tools.enumerados.TipoColumna;
 import tools.enumerados.TipoRenglon;
 
 public class Arreglo2D {
-    private int columnasDim;
-    private int filasDim;
+    protected int columnasDim;
+    protected int filasDim;
 
     protected Object datos[][];
 

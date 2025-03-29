@@ -533,7 +533,7 @@ public class Arreglo implements VectorFijo{
         return this.indiceSuperior + 1;
     }
 
-    private boolean validaPosicion(int indice){
+    protected boolean validaPosicion(int indice){
         if (indice >= 0 && indice <= this.indiceSuperior){
             // si es válido
             return true;
