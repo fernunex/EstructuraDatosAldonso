@@ -234,8 +234,13 @@ public class Arreglo2D {
         return true;
     }
 
-    public Object[][] getDatos() {
+    protected Object[][] getDatos() {
         return datos;
+    }
+    protected void setDatos(Object[][] datosNew, int filas, int columnas){
+        this.datos = datosNew;
+        filasDim = filas;
+        columnasDim = columnas;
     }
 
     // 15. Este metodo agrega un renglon nuevo y vacio al final de la tabla
