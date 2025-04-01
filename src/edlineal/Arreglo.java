@@ -406,6 +406,11 @@ public class Arreglo implements VectorFijo{
         }
     }
 
+    @Override
+    public Integer ponerInicio(Object valor) {
+        return 0;
+    }
+
     // Este metodo indica si los indices inicial y final son validos
     private boolean indicesValidos(int indexIni, int indexFin){
         if ((indexIni < indexFin) == true && (indexFin <= this.indiceSuperior) == true){

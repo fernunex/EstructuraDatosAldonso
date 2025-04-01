@@ -4,6 +4,7 @@ package edlineal;
 /* Esta interfaz maneja los métodos para memoria estática y dinámica */
 public interface ListaDatos {
     public boolean vacia();
+
     public Integer poner(Object valor);
     public Object buscar(Object valor);
     public void imprimir();
@@ -31,4 +32,8 @@ public interface ListaDatos {
     public void rellenar(Object valor);
 
     public Object verFinal();
+
+    // ListaDin
+    public Integer ponerInicio(Object valor);
+
 }

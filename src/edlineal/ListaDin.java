@@ -1,19 +1,69 @@
 package edlineal;
 
+import edlineal.auxiliares.Nodo;
+import entradasalida.Salida;
+
 public class ListaDin implements ListaDatos{
     protected Nodo primero;
     protected Nodo ultimo;
+
+    public ListaDin(){
+        this.primero = null;
+        this.ultimo = null;
+    }
 
 
     // Este metodo checa si esta vacia la lista
     @Override
     public boolean vacia() {
-        return false;
+        if (primero == null){
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    // Este metodo agrega un nodo al inicio de la lista
+    @Override
+    public Integer ponerInicio(Object valor) {
+
+        Nodo nuevoNodo = new Nodo(valor); // Paso de crear el espacio de memoria
+
+        // Validar si existe un error en memoria llena.
+        if (nuevoNodo != null){
+
+            if (vacia() == true){ // Esta vacia, por lo tanto sera el principio y el final
+                this.primero = nuevoNodo;
+                this.ultimo = nuevoNodo;
+            } else {
+                nuevoNodo.setLigaDer(this.primero);
+                this.primero = nuevoNodo;
+            }
+            return 0;
+        } else { // error no hay memoria
+            return -1;
+        }
+    }
+
+    // Este metodo inserta un elemento al final de la lista
     @Override
     public Integer poner(Object valor) {
-        return 0;
+        Nodo nuevoNodo = new Nodo(valor);
+
+        // Verificamos memoria
+        if (nuevoNodo != null){
+            if (vacia() == true){ // a) Esta vacia, por lo tanto primero y ultimo son lo mismo
+                primero = nuevoNodo;
+                ultimo = nuevoNodo;
+            } else { // b) Ahora el ultimo actual apunta a nuevoNodo y se convierte en el ultimo
+                ultimo.setLigaDer(nuevoNodo);
+                ultimo = nuevoNodo;
+            }
+            return 0;
+        } else { // error memoria
+            return -1;
+        }
+
     }
 
     @Override
@@ -21,14 +71,39 @@ public class ListaDin implements ListaDatos{
         return null;
     }
 
+    // Este metodo imprime la lista.
     @Override
     public void imprimir() {
+        Nodo temporal = primero;
+        Object info;
 
+        while (temporal != null){
+            info = temporal.getDato();
+            Salida.salidaPorDefecto(info + " --> ");
+            temporal = temporal.getLigaDer();
+        }
+        Salida.salidaPorDefecto("null");
     }
 
     @Override
     public void imprimirDes() {
+        int cantidadElementos = 0;
+        Nodo temporal = primero;
 
+        while (temporal != null){
+            cantidadElementos++;
+            temporal = temporal.getLigaDer();
+        }
+
+        // ---------------
+        temporal = primero;
+        PilaFija pilaElementos = new PilaFija(cantidadElementos);
+        while (temporal != null){
+            pilaElementos.poner(temporal.getDato());
+            temporal = temporal.getLigaDer();
+        }
+
+        pilaElementos.imprimir();
     }
 
     @Override
