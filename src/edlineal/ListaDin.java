@@ -1,6 +1,7 @@
 package edlineal;
 
 import edlineal.auxiliares.Nodo;
+import edlineal.auxiliares.NodoABuscar;
 import entradasalida.Salida;
 
 public class ListaDin implements ListaDatos{
@@ -106,9 +107,54 @@ public class ListaDin implements ListaDatos{
         pilaElementos.imprimir();
     }
 
+    // Este metodo busca un nodo
+    public NodoABuscar buscarNodo(Object valor){
+        Nodo anterior = primero;
+        Nodo encontrado = primero;
+
+        while (encontrado != null &&
+                valor.toString().equalsIgnoreCase(encontrado.getDato().toString()) == false) {
+            anterior = encontrado;
+            encontrado = encontrado.getLigaDer();
+        }
+
+        if (encontrado != null){ // Encontro algo
+            return new NodoABuscar(anterior, encontrado);
+        } else { // Si no encontro nada, regreso null
+            return null;
+        }
+
+
+
+    }
+
+    // Este metodo elimina el elemento del final
     @Override
-    public Object quitar() {
-        return null;
+    public Object quitar(){
+        if (vacia() == false){
+            Object respaldo = ultimo.getDato();
+            if (primero == ultimo){
+                primero = null;
+                ultimo = null;
+            } else {
+                NodoABuscar busqueda = buscarNodo(ultimo.getDato());
+                busqueda.getAnterior().setLigaDer(null);
+                ultimo = busqueda.getAnterior();
+            }
+            return respaldo;
+        } else {
+            return null;
+        }
+    }
+
+    // Busca un elemento en la lista y me lo regresa
+    public Object buscarObjeto(Object valor){
+        NodoABuscar nodoBuscado = buscarNodo(valor);
+        if (nodoBuscado != null){
+            return nodoBuscado.getEncontrado().getDato();
+        } else {
+            return null;
+        }
     }
 
     @Override
