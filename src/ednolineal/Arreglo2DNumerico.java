@@ -28,15 +28,15 @@ public class Arreglo2DNumerico extends Arreglo2D{
     // Punto 1 Sobreescritura ----------------------------------
     // Este metodo obtiene un dato del arreglo 2d numerico
     @Override
-    public Double obtener(int fila, int col) {
-        return (double) super.obtener(fila, col);
+    public Integer obtener(int fila, int col) {
+        return (int) super.obtener(fila, col);
     }
 
     // Este metodo guarda solo numeros en el arreglo 2d numerico en la posicion indicada
     @Override
     public boolean cambiar(int fila, int col, Object valor) {
         if (valor instanceof Number){
-            return super.cambiar(fila, col, (double) valor);
+            return super.cambiar(fila, col, valor);
         } else {
             return false;
         }
