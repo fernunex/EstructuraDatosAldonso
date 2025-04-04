@@ -1,6 +1,7 @@
 package principales;
 
 import registros.imagen.ImageFileRecord;
+import tools.enumerados.FactorEscalado;
 
 public class PrincipalImagen {
     public static void main(String[] args) {
@@ -70,11 +71,46 @@ public class PrincipalImagen {
 //        miSonic.grabarImagen(PATH_IMG_CHANGED);
 
         // Punto 8 Transpuesta
-        String PATH_IMG = PATH + "sonicSS.png";
-        String PATH_IMG_CHANGED = PATH + "sonicTransponido.png";
-        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
-        miSonic.transpuesta();// transpuestos
-        miSonic.grabarImagen(PATH_IMG_CHANGED);
+//        String PATH_IMG = PATH + "sonicSS.png";
+//        String PATH_IMG_CHANGED = PATH + "sonicTransponido2.png";
+//        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
+//        miSonic.transpuesta();// transpuestos
+//        miSonic.grabarImagen(PATH_IMG_CHANGED);
 
+
+        // Punto 9 Redimensionar Agrandar
+//        String PATH_IMG = PATH + "sonicSS.png";
+//        String PATH_IMG_CHANGED = PATH + "sonicGrande.png";
+//        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
+//        miSonic.redimensionar(FactorEscalado.DOBLE);
+//        miSonic.grabarImagen(PATH_IMG_CHANGED);
+
+        // Punto 9 Redimensionar Achicar
+//        String PATH_IMG = PATH + "sonicSS.png";
+//        String PATH_IMG_CHANGED = PATH + "sonicChiquto.png";
+//        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
+//        miSonic.redimensionar(FactorEscalado.MITAD);
+//        miSonic.grabarImagen(PATH_IMG_CHANGED);
+
+        // Punto 10 agregar Marco de 15 y rojo
+//        String PATH_IMG = PATH + "sonicSS.png";
+//        String PATH_IMG_CHANGED = PATH + "sonicMarco.png";
+//        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
+//        int rojo = 0xFF0000;
+//        miSonic.agregarMarco(15, rojo);
+//        miSonic.grabarImagen(PATH_IMG_CHANGED);
+
+        // Punto 11 Convertir a blanco y negro
+        String PATH_IMG = PATH + "sonicSS.png";
+        String PATH_IMG_CHANGED = PATH + "sonicBlancoNegro.png";
+        ImageFileRecord miSonic = new ImageFileRecord(PATH_IMG);
+        miSonic.aBlancoNegro();
+        miSonic.grabarImagen(PATH_IMG_CHANGED);
     }
+
 }
+
+
+
+
+

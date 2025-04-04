@@ -2,6 +2,7 @@ package registros.imagen;
 
 import ednolineal.Arreglo2DNumerico;
 import entradasalida.Salida;
+import tools.enumerados.FactorEscalado;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -251,7 +252,189 @@ public class ImageFileRecord {
         ancho = imageMatriz.obtenerColumnas();
     }
 
+    // Punto 10
+    // Este metodo agrega un marco de un color y un grosor especificado por el usuario
+    // Recibe el grosor que es la cantidad de pixeles y un color en formato RGB no ARGB.
+    // RGB = 0xFFFFFF - 0x000000
+    public boolean agregarMarco(int grosor, int colorRGB){
+        if (alto > 0 && ancho > 0){
+            int alto2 = alto + (grosor * 2);
+            int ancho2 = ancho + (grosor * 2);
 
+            int colorARGB = 0xFF000000 | colorRGB;
+
+            Arreglo2DNumerico matriz2 = new Arreglo2DNumerico(alto2, ancho2);
+
+            for (int indexFila = 0; indexFila < alto2; indexFila++){
+                for (int indexCol = 0; indexCol < ancho2; indexCol++){
+
+                    // Si es imagen
+                    if (((indexFila >= grosor) && (indexFila < alto2 - grosor))
+                        && ((indexCol >= grosor) && (indexCol < ancho2 - grosor))
+                    ){
+                            matriz2.cambiar(indexFila, indexCol,
+                                    imageMatriz.obtener(indexFila - grosor, indexCol - grosor));
+                    } else { // Entonces es marco
+                        matriz2.cambiar(indexFila, indexCol, colorARGB);
+                    }
+
+                }
+            }
+            imageMatriz = matriz2;
+            alto = alto2;
+            ancho = ancho2;
+
+            return true;
+        } else { // No hay una imagen valida
+            return false;
+        }
+    }
+
+
+    // Punto 9
+    // Este metodo escala o redimensiona la imagen según el factor enumerado especificado por el usuario en el enum
+    public boolean redimensionar(FactorEscalado factor){
+        if (factor == FactorEscalado.CUADRUPLE){
+            return redimensionarAgrandar(4);
+        } else if (factor == FactorEscalado.TRIPLE) {
+            return redimensionarAgrandar(3);
+        } else if (factor == FactorEscalado.DOBLE) {
+            return redimensionarAgrandar(2);
+        } else if (factor == FactorEscalado.MITAD) {
+            return redimensionarAchicar(2);
+        } else if (factor == FactorEscalado.TERCIO) {
+            return redimensionarAchicar(3);
+        } else if (factor == FactorEscalado.CUARTO) {
+            return redimensionarAchicar(4);
+        } else {
+            return false;
+        }
+    }
+
+    // Este metodo escala o redimensiona (agranda) la imagen según el factor pasado como entero por el usuario
+    public boolean redimensionarAgrandar(int factor){
+        if (alto > 0 && ancho > 0){ // Hay una imagen valida
+
+            int alto2 = alto * factor;
+            int ancho2 = ancho * factor;
+            Arreglo2DNumerico matriz2 = new Arreglo2DNumerico(alto2, ancho2);
+            int pixelNum;
+
+            for (int indexFila = 0; indexFila < alto; indexFila++){
+                for (int indexCol = 0; indexCol < ancho; indexCol++){
+                    pixelNum = imageMatriz.obtener(indexFila, indexCol);
+
+                    // Insertamos el bloque del color de ese pixel
+                    for (int indexFactorFila = 0; indexFactorFila < factor; indexFactorFila++){
+                        for (int indexFactorCol = 0; indexFactorCol < factor; indexFactorCol++){
+                            matriz2.cambiar(
+                                    (indexFila * factor) + indexFactorFila,
+                                    (indexCol * factor) + indexFactorCol,
+                                    pixelNum
+                            );
+                        }
+                    }
+                }
+            }
+            imageMatriz = matriz2;
+            alto = alto2;
+            ancho = ancho2;
+
+            return true;
+        } else { // No hay una imagen valida
+            return false;
+        }
+    }
+
+    // Este metodo escala o redimensiona (achica) la imagen según el fator especificado por el usuario con un entero
+    public boolean redimensionarAchicar(int factor){
+        if (alto > 0 && ancho > 0){ // Hay una imagen valida
+
+            int alto2 = alto / factor;
+            int ancho2 = ancho / factor;
+            Arreglo2DNumerico matriz2 = new Arreglo2DNumerico(alto2, ancho2);
+            int pixelNum, sumaRed, sumaGreen, sumaBlue;
+            PixelARGB pixelLeido, pixelPromedio;
+            pixelPromedio = new PixelARGB(0xFF000000); // Aqui guardaremos el pixel promedio
+
+            for (int indexFila = 0; indexFila < alto2; indexFila++){
+                for (int indexCol = 0; indexCol < ancho2; indexCol++){
+
+                    // Calculamos una suma del bloque de ese color
+                    sumaRed = 0;
+                    sumaGreen = 0;
+                    sumaBlue = 0;
+                    for (int indexFactorFila = 0; indexFactorFila < factor; indexFactorFila++){
+                        for (int indexFactorCol = 0; indexFactorCol < factor; indexFactorCol++){
+                            pixelNum = imageMatriz.obtener(
+                                (indexFila * factor) + indexFactorFila,
+                                (indexCol * factor) + indexFactorCol);
+                            pixelLeido = new PixelARGB(pixelNum);
+
+                            sumaRed += pixelLeido.getColorRed();
+                            sumaGreen += pixelLeido.getColorGreen();
+                            sumaBlue += pixelLeido.getColorBlue();
+                        }
+                    }
+                    pixelPromedio.setColorRed(sumaRed / (factor * factor));
+                    pixelPromedio.setColorGreen(sumaGreen / (factor * factor));
+                    pixelPromedio.setColorBlue(sumaBlue / (factor * factor));
+
+                    // Insertamos ese promedio del bloque de color
+                    matriz2.cambiar(indexFila, indexCol, pixelPromedio.getColorIntModificado());
+                }
+            }
+            imageMatriz = matriz2;
+            alto = alto2;
+            ancho = ancho2;
+
+            return true;
+        } else { // No hay una imagen valida
+            return false;
+        }
+    }
+
+    // Punto 11
+    // Este metodo convierte la imagen a blanco y negro
+    public boolean aBlancoNegro(){
+        if ((alto > 0 && ancho > 0) == false){
+            return false;
+        } else {
+            // Convertir a escala de grises
+            convertirEscalaGrises();
+
+            int pixelNumber;
+            int UMBRAL = 127;
+            int BLANCO = 255;
+            int NEGRO = 0;
+            PixelARGB pixel;
+
+            for (int indexFila = 0; indexFila < alto; indexFila++){
+                for (int indexColumna = 0; indexColumna < ancho; indexColumna++){
+                    pixelNumber = imageMatriz.obtener(indexFila, indexColumna);
+
+                    // Convertimos a pixel
+                    pixel = new PixelARGB(pixelNumber);
+
+                    // Checamos si se convierte a blanco o negro
+                    if (pixel.getColorRed() > UMBRAL){ // Se convierte a blanco
+                        // Reasignamos los colores
+                        pixel.setColorRed(BLANCO);
+                        pixel.setColorGreen(BLANCO);
+                        pixel.setColorBlue(BLANCO);
+                    } else { // Se convierte a negro
+                        pixel.setColorRed(NEGRO);
+                        pixel.setColorGreen(NEGRO);
+                        pixel.setColorBlue(NEGRO);
+                    }
+
+                    // Reasignamos el valor en la matriz
+                    imageMatriz.cambiar(indexFila, indexColumna, pixel.getColorIntModificado());
+                }
+            }
+            return true;
+        }
+    }
 
 
     // Metodos setters y getters
