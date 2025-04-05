@@ -6,7 +6,21 @@ public class TratamientoExpresiones {
 
     // Convertir una expresión infija a posfija
     public static String convertirInfijaPostfija(String infija){
-        return null;
+            String token, expPostfija;
+            PilaFija pila = new PilaFija(infija.length());
+
+        // Tokenizar de izquierda a derecha
+        for (int posToken = 0; posToken < infija.length(); posToken++){
+            // Tomamos un token
+            token = infija.charAt(posToken) + "";
+
+            // Checamos si es operando
+            if (esOperando(token) == true){
+
+            } else if (esOperador(token) == true) {
+
+            }
+        }
     }
 
     // Convertir una expresión infija en prefija
@@ -89,7 +103,7 @@ public class TratamientoExpresiones {
         }
     }
 
-    public static boolean esOperando(String token){
+    public static boolean esOperador(String token){
         if (token.equals("+") == true){
             return false;
         } else if (token.equals("-") == true){
