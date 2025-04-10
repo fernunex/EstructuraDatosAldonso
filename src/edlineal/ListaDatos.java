@@ -35,5 +35,9 @@ public interface ListaDatos {
 
     // ListaDin
     public Integer ponerInicio(Object valor);
+    public void iniciaIterador();
+    public boolean iteradorValido();
+    public Object obtenerIterador();
+    public void moverIterador();
 
 }

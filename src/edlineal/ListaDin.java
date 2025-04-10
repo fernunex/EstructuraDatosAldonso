@@ -8,9 +8,13 @@ public class ListaDin implements ListaDatos{
     protected Nodo primero;
     protected Nodo ultimo;
 
+    protected Nodo iterador;
+
     public ListaDin(){
         this.primero = null;
         this.ultimo = null;
+
+        this.iterador = null;
     }
 
 
@@ -43,6 +47,36 @@ public class ListaDin implements ListaDatos{
             return 0;
         } else { // error no hay memoria
             return -1;
+        }
+    }
+
+    @Override
+    public void iniciaIterador() {
+        iterador = primero;
+    }
+
+    @Override
+    public boolean iteradorValido() {
+        if (iterador == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public Object obtenerIterador() {
+        if (iteradorValido() == true){
+            return iterador.getDato();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void moverIterador() {
+        if (iteradorValido() == true){
+            iterador = iterador.getLigaDer();
         }
     }
 
@@ -156,6 +190,8 @@ public class ListaDin implements ListaDatos{
             return null;
         }
     }
+
+
 
     @Override
     public Object quitar(Object valor) {
