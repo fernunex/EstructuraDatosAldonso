@@ -411,6 +411,26 @@ public class Arreglo implements VectorFijo{
         return 0;
     }
 
+    @Override
+    public void iniciaIterador() {
+
+    }
+
+    @Override
+    public boolean iteradorValido() {
+        return false;
+    }
+
+    @Override
+    public Object obtenerIterador() {
+        return null;
+    }
+
+    @Override
+    public void moverIterador() {
+
+    }
+
     // Este metodo indica si los indices inicial y final son validos
     private boolean indicesValidos(int indexIni, int indexFin){
         if ((indexIni < indexFin) == true && (indexFin <= this.indiceSuperior) == true){
