@@ -32,6 +32,7 @@ public interface ListaDatos {
     public void rellenar(Object valor);
 
     public Object verFinal();
+    public Object verInicio(); // Muestra quien esta en el inicio
 
     // ListaDin
     public Integer ponerInicio(Object valor);

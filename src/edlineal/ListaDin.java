@@ -292,4 +292,13 @@ public class ListaDin implements ListaDatos{
     public Object verFinal() {
         return null;
     }
+
+    @Override
+    public Object verInicio() {
+        if (primero != null){
+            return primero.getDato();
+        } else {
+            return null;
+        }
+    }
 }

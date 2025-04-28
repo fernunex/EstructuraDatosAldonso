@@ -1,17 +1,18 @@
 package registros.ventas;
 
 import edlineal.Arreglo;
+import edlineal.ListaDin;
 
 public class GestorTienda2 {
     protected String nombre;
-    protected Arreglo notasVenta;
-    protected Arreglo vendedores;
+    protected ListaDin notasVenta;
+    protected ListaDin vendedores;
 
 
-    public GestorTienda2(String nombre, int cantNotas, int cantVendedores){
+    public GestorTienda2(String nombre, int cantVendedores){
         this.nombre = nombre;
-        this.notasVenta = new Arreglo(cantNotas);
-        this.vendedores = new Arreglo(cantVendedores);
+        this.notasVenta = new ListaDin();
+        this.vendedores = new ListaDin();
     }
 
     public boolean agregarVendedor(String nombre, String rfc, int numeroVendedor,
@@ -30,6 +31,10 @@ public class GestorTienda2 {
     public boolean agregarNota(Cliente cliente, String fecha, int cantArtVendidos){
         // Ahorita ya tengo el cliente, la fecha
         // voy a obtener internamenete el folio y el vendedor
+        vendedores.iniciaIterador();
+
+
+
         Vendedor vendedorTemp = (Vendedor) vendedores.obtener(0);
         if (vendedorTemp == null){
             return false;
