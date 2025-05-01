@@ -290,7 +290,11 @@ public class ListaDin implements ListaDatos{
 
     @Override
     public Object verFinal() {
-        return null;
+        if (ultimo != null){
+            return ultimo.getDato();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -301,4 +305,6 @@ public class ListaDin implements ListaDatos{
             return null;
         }
     }
+
+
 }

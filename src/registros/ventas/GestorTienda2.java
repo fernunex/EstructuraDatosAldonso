@@ -9,7 +9,7 @@ public class GestorTienda2 {
     protected ListaDin vendedores;
 
 
-    public GestorTienda2(String nombre, int cantVendedores){
+    public GestorTienda2(String nombre){
         this.nombre = nombre;
         this.notasVenta = new ListaDin();
         this.vendedores = new ListaDin();
@@ -28,33 +28,27 @@ public class GestorTienda2 {
         }
     }
 
-    public boolean agregarNota(Cliente cliente, String fecha, int cantArtVendidos){
+    public boolean agregarNota(Cliente cliente, String fecha){
         // Ahorita ya tengo el cliente, la fecha
         // voy a obtener internamenete el folio y el vendedor
-        vendedores.iniciaIterador();
 
-
-
-        Vendedor vendedorTemp = (Vendedor) vendedores.obtener(0);
+        Vendedor vendedorTemp = (Vendedor) vendedores.verInicio();
         if (vendedorTemp == null){
             return false;
         }
 
-        int cantidadNotasExistentes = this.notasVenta.cantidad();
         int folioTemp = 0;
-        NotaVenta notaTemp;
+        NotaVenta2 notaTemp = (NotaVenta2) notasVenta.verFinal();
 
 
-        if(cantidadNotasExistentes == 0){ // no hay notas
+        if(notaTemp == null){ // no hay notas
             folioTemp = 1;
         } else { // si hay notas
             // obtener la nota de arriba
-            notaTemp =(NotaVenta) this.notasVenta.obtener((cantidadNotasExistentes - 1));
             folioTemp = notaTemp.getFolio() + 1;
         }
 
-
-        NotaVenta notaNueva = new NotaVenta(cantArtVendidos, cliente, vendedorTemp, fecha, folioTemp);
+        NotaVenta2 notaNueva = new NotaVenta2(cliente, vendedorTemp, fecha, folioTemp);
 
         int retorno = notasVenta.poner(notaNueva);
         if (retorno < 0){ // error
@@ -66,13 +60,12 @@ public class GestorTienda2 {
 
     public boolean agregarArticuloNota(int folio, Articulo artComprado, int cant){
         // Encontrar la nota que tenga el folio proporcionado
-        int posicionBusqueda = (int) this.notasVenta.buscar(folio);
+        NotaVenta2 notaTemp = (NotaVenta2) this.notasVenta.buscarObjeto(folio);
 
-        if (posicionBusqueda < 0){
+        if (notaTemp == null){ // Esa nota no está
             return false;
-        } else {
-            //Extraer la nota
-            NotaVenta notaTemp = (NotaVenta) this.notasVenta.obtener(posicionBusqueda);
+        } else { // Si está
+            //Extraer la nota, ya se hizo arriba
             // Usamos el metodo de agregar ARticulo de una nota
             return notaTemp.agregarArticulo(artComprado, cant);
         }
@@ -80,11 +73,10 @@ public class GestorTienda2 {
 
     public void imprimirNota(int folio){
         // Primero encontrar la nota
-        int posicionNota = (int) this.notasVenta.buscar(folio);
+        NotaVenta2 notaTemp = (NotaVenta2) this.notasVenta.buscarObjeto(folio);
 
-        if (posicionNota >= 0){ // Puedo impirmirla porque existe
-            // Obtenela
-            NotaVenta notaTemp = (NotaVenta) this.notasVenta.obtener(posicionNota);
+        if (notaTemp != null){ // Puedo impirmirla porque existe
+            // Obtenela, hecha arriba
             // Imprimirla
             notaTemp.imprimirNota();
         } else {

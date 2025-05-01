@@ -407,6 +407,11 @@ public class Arreglo implements VectorFijo{
     }
 
     @Override
+    public Object verInicio() {
+        return null;
+    }
+
+    @Override
     public Integer ponerInicio(Object valor) {
         return 0;
     }
