@@ -2,6 +2,7 @@ package edlineal;
 
 import edlineal.auxiliares.Nodo;
 import edlineal.auxiliares.NodoABuscar;
+import ednolineal.Arreglo2D;
 import entradasalida.Salida;
 
 public class ListaDin implements ListaDatos{
@@ -120,25 +121,19 @@ public class ListaDin implements ListaDatos{
         Salida.salidaPorDefecto("null");
     }
 
+    // Este metodo imprime en orden inverso la ListaDinamica
     @Override
     public void imprimirDes() {
-        int cantidadElementos = 0;
-        Nodo temporal = primero;
+        PilaDinamica miPila = new PilaDinamica();
 
-        while (temporal != null){
-            cantidadElementos++;
-            temporal = temporal.getLigaDer();
+        iniciaIterador();
+        while (iteradorValido()){ // Mientras haya nodos
+            miPila.poner(obtenerIterador());
+            moverIterador();
         }
 
-        // ---------------
-        temporal = primero;
-        PilaFija pilaElementos = new PilaFija(cantidadElementos);
-        while (temporal != null){
-            pilaElementos.poner(temporal.getDato());
-            temporal = temporal.getLigaDer();
-        }
-
-        pilaElementos.imprimir();
+        // Imprimimos la pila simplemente
+        miPila.imprimir();
     }
 
     // Este metodo busca un nodo
@@ -191,6 +186,92 @@ public class ListaDin implements ListaDatos{
         }
     }
 
+    // Métodos de la práctica ----------------------------------------------------
+
+    // Este metodo devuelve todas las occurencias de un valor dado.
+    public ListaDin encontrarLista(Object valor){
+        ListaDin listaEncontrados = new ListaDin();
+
+        iniciaIterador();
+        while (iteradorValido()){
+            if ((obtenerIterador()).toString().equalsIgnoreCase(valor.toString())){
+                listaEncontrados.poner(obtenerIterador());
+            }
+            moverIterador();
+        }
+
+        return listaEncontrados;
+    }
+
+    // Este metodo devuelve una lista estatica de la lista dinámica actual
+    public Arreglo aListaEstatica(){
+        Arreglo arr = new Arreglo(noElementos());
+
+        // Llenando el arreglo
+        iniciaIterador();
+        while (iteradorValido()){
+            arr.poner(obtenerIterador());
+            moverIterador();
+        }
+
+        return arr;
+    }
+
+    // Este metodo cuenta cuantos elementos hay en la lista dinamica actual
+    private int noElementos(){
+        int num = 0;
+        iniciaIterador();
+        while (iteradorValido()){
+            num++;
+            moverIterador();
+        }
+        return num;
+    }
+
+
+    // Este metodo devuelve un arreglo con todos los elementos de la lista dinámica actual
+    // excepto aquellos que sean indicados en el arreglo de elementos a descartar
+    public Arreglo aListaEstatica(Arreglo elementosADescartar){
+        Arreglo arr = new Arreglo(noElementos());
+        int elementosAdded = 0;
+
+        iniciaIterador();
+        while (iteradorValido()){
+            if ((int) elementosADescartar.buscar(obtenerIterador()) == -1){ // No se encuentra en elementosADescartar
+                arr.poner(obtenerIterador());
+                elementosAdded++;
+            }
+            moverIterador();
+        }
+
+        arr.redimensionar(elementosAdded); // Lo redimensionamos a los elementos que finalmenete sí fueron añadidos
+        return arr;
+    }
+
+    // Este metodo convierte la lista dinámica actual a una matriz 2D con un numero de filas y columnas indicadas
+    public Arreglo2D aMatriz2D(int filas, int columanas){
+        // 1. Validar dimensiones
+        if (filas > 0 && columanas > 0){ // Dimensiones válidas
+            Arreglo2D arr2d = new Arreglo2D(filas, columanas, null);
+
+            iniciaIterador();
+            for (int filasIndex = 0; filasIndex < filas; filasIndex++){
+                for (int colIndex = 0; colIndex < columanas; colIndex++){
+                    if (iteradorValido()){
+                        arr2d.cambiar(filasIndex, colIndex, obtenerIterador());
+                        moverIterador();
+                    } else { // El arreglo 2d esta inicializado con nulos. Si ya no hay datos en la lista dinámica
+                        // simplemente retornamos
+                        return arr2d;
+                    }
+                }
+            }
+            return arr2d;
+
+        } else {
+            return null;
+        }
+    }
 
 
     @Override
@@ -198,39 +279,166 @@ public class ListaDin implements ListaDatos{
         return null;
     }
 
-    @Override
-    public boolean esIgual(ListaDatos lista2) {
-        return false;
+    public Object quitar(int indice){
+        if (vacia() == true){
+            return null;
+        } else {
+            if (indice == 0){
+                primero = primero.getLigaDer();
+            } else {
+                iniciaIterador();
+                while (indice > 1 && iteradorValido()){
+                    indice--;
+                    moverIterador();
+                }
+
+                // Si encontramos el indice indicado
+                if (indice == 1){ // Estamos en uno al anterior del indice a remover
+                    if (iterador.getLigaDer().getLigaDer() == null){ //El que vamos a quitar es el último
+                        Nodo backup = iterador.getLigaDer();
+                        iterador.setLigaDer(null);
+                        ultimo = iterador;
+                        return backup.getDato();
+                    } else {// No es el último, hay uno intermedio
+                        Nodo backup = iterador.getLigaDer();
+                        iterador.setLigaDer(iterador.getLigaDer().getLigaDer());
+                        return backup.getDato();
+                    }
+                } else { // No exite ese indice
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
-    public boolean modificar(Object valorViejo, Object valorNuevo, int numVeces) {
-        return false;
+    public boolean esIgual(ListaDatos lista2) {
+        iniciaIterador();
+        lista2.iniciaIterador();
+
+        while (iteradorValido() && lista2.iteradorValido()){
+            if (obtenerIterador().toString().equalsIgnoreCase(lista2.obtenerIterador().toString()) == false){
+                // Son diferentes, entonces terminamos
+                return false;
+            }
+            moverIterador();
+            lista2.moverIterador();
+        }
+
+        if (iteradorValido() == lista2.iteradorValido()){// Si ambos iteradores terminaron a la vez
+            // entonces son igualitas
+            return true;
+        } else { // Uno aun tiene datos
+            return false;
+        }
+
     }
+
+    // Este metodo modifia un valorViejo por uno nuevo una cantidad indicada de veces
+    @Override
+    public boolean modificar(Object valorViejo, Object valorNuevo, int numVeces) {
+        iniciaIterador();
+        boolean flag = false;
+        while (numVeces > 0 && iteradorValido()){
+            if (obtenerIterador().toString().equalsIgnoreCase(valorViejo.toString())){
+                iterador.setDato(valorNuevo);
+                flag = true;
+                numVeces--;
+            }
+            moverIterador();
+        }
+        return flag;
+    }
+
+    // Este metodo cambia un elemento en el indice indicado por un valor indicado
+    public boolean cambiar(int indice, Object valor){
+        iniciaIterador();
+        int indexCurrent = 0;
+        while (iteradorValido() && indexCurrent != indice){
+            moverIterador();
+            indexCurrent++;
+        }
+
+        if (indexCurrent == indice){ // Si es posible acceder o existe ese indice
+            iterador.setDato(valor);
+            return true;
+        }
+        return false; // No existe ese indice en la lista actual.
+    }
+
+    // Este metodo obtiene un objeto que se encuentra en el indice indicado
+    public Object obtener(int indice){
+        iniciaIterador();
+        int indexCurrent = 0;
+        while (iteradorValido() && indexCurrent != indice){
+            moverIterador();
+            indexCurrent++;
+        }
+
+        if (indexCurrent == indice){ // Si es posible acceder o existe ese indice
+            return obtenerIterador();
+        }
+        return null; // No existe ese indice en la lista actual.
+    }
+
 
     @Override
     public Arreglo buscarValores(Object valor) {
         return null;
     }
 
+    // Este metodo vacia la lista dinamica actual
     @Override
     public void vaciar() {
-
+        primero = null;
+        ultimo = null;
     }
 
+    // Este metodo agrega una lista de datos al final de la lista actual
     @Override
     public boolean agregarLista(ListaDatos lista2) {
-        return false;
+        if (lista2.vacia() == true){ // lista2 esta vacia, por lo que no se agrego nada a la lista actual
+            return false;
+        } else { // Si hay elementos a agregar
+            while (lista2.vacia() == false){
+                poner(lista2.quitar());
+            }
+            return true;
+        }
     }
 
+    // Este metodo invierte la lista dinamica actual
     @Override
     public void invertir() {
+        PilaDinamica pila = new PilaDinamica();
 
+        iniciaIterador();
+        while (iteradorValido()){
+            pila.poner(obtenerIterador());
+            moverIterador();
+        }
+
+        vaciar(); // vaciamos la lista actual
+        while (pila.vacio() == false){
+            poner(pila.quitar());
+        }
     }
 
+    // Este metodo cuenta cuantos objetos "valor" se encuentra en la lista dinamica
+    // todas las ocurrencias
     @Override
     public int contar(Object valor) {
-        return 0;
+        int ocurrencias = 0;
+        iniciaIterador();
+        while (iteradorValido()){
+            if (obtenerIterador().toString().equalsIgnoreCase(valor.toString())){
+                ocurrencias++;
+            }
+            moverIterador();
+        }
+
+        return ocurrencias;
     }
 
     @Override
@@ -238,14 +446,28 @@ public class ListaDin implements ListaDatos{
         return false;
     }
 
+    // Este medood agrega a la lista una n cantidad de valores valor a la lista
+    // Esta no vacia la lista, solo hace un append de esa cantidad de valores
     @Override
     public void rellenar(Object valor, int cantidad) {
-
+        while (cantidad > 0){
+            poner(valor);
+            cantidad--;
+        }
     }
 
+    // Este metodo retorna una ListaDin clonada de la actual
     @Override
     public ListaDatos clonar() {
-        return null;
+        ListaDin listaClon = new ListaDin();
+
+        iniciaIterador();
+        while (iteradorValido()){
+            listaClon.poner(obtenerIterador());
+            moverIterador();
+        }
+
+        return listaClon;
     }
 
     @Override
