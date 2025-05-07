@@ -32,9 +32,7 @@ public class ListaDin implements ListaDatos{
     // Este metodo agrega un nodo al inicio de la lista
     @Override
     public Integer ponerInicio(Object valor) {
-
         Nodo nuevoNodo = new Nodo(valor); // Paso de crear el espacio de memoria
-
         // Validar si existe un error en memoria llena.
         if (nuevoNodo != null){
 
@@ -84,6 +82,7 @@ public class ListaDin implements ListaDatos{
     // Este metodo inserta un elemento al final de la lista
     @Override
     public Integer poner(Object valor) {
+
         Nodo nuevoNodo = new Nodo(valor);
 
         // Verificamos memoria
@@ -218,7 +217,7 @@ public class ListaDin implements ListaDatos{
     }
 
     // Este metodo cuenta cuantos elementos hay en la lista dinamica actual
-    private int noElementos(){
+    public int noElementos(){
         int num = 0;
         iniciaIterador();
         while (iteradorValido()){

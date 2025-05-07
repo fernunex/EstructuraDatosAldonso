@@ -7,6 +7,7 @@ public class Arreglo implements VectorFijo{
     protected int capacidad;
     protected Object datos[];
     protected int indiceSuperior;
+    protected int iterador;
 
     public Arreglo(int tamanio){
         this.capacidad = tamanio;
@@ -418,17 +419,25 @@ public class Arreglo implements VectorFijo{
 
     @Override
     public void iniciaIterador() {
-
+        iterador = 0;
     }
 
     @Override
     public boolean iteradorValido() {
-        return false;
+        if (iterador < indiceSuperior){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Object obtenerIterador() {
-        return null;
+        if (iteradorValido()){
+            return datos[iterador];
+        } else {
+            return null;
+        }
     }
 
     @Override
