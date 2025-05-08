@@ -70,17 +70,17 @@ public class ListaDinNumerica extends ListaDin{
         }
     }
 
-    // Calcula la media de la lista numerica actual
-    public double calcularMedia(){
-        double suma = calcularSumatoria();
-        return suma / noElementos();
+    // Este metodo retorna una ListaDinNumerica clonada de la actual
+    @Override
+    public ListaDatos clonar() {
+        ListaDinNumerica listaClon = new ListaDinNumerica();
+
+        iniciaIterador();
+        while (iteradorValido()){
+            listaClon.poner(obtenerIterador());
+            moverIterador();
+        }
+
+        return listaClon;
     }
-
-
-
-
-
-
-
-
 }

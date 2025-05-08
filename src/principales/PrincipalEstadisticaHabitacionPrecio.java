@@ -2,7 +2,9 @@ package principales;
 
 import edlineal.Arreglo;
 import edlineal.ListaDinNumerica;
+import entradasalida.Salida;
 import entradasalida.archivos.ArchivoTextoD;
+import tools.matematicas.CalcEstadistica;
 
 public class PrincipalEstadisticaHabitacionPrecio {
     public static void main(String[] args) {
@@ -45,10 +47,11 @@ public class PrincipalEstadisticaHabitacionPrecio {
 //        lista.poner(1.0);
 //        lista.poner(2.0);
 //        lista.poner(3.0);
+//        lista.poner(3.0);
 //        lista.poner(4.0);
 //        lista.imprimir();
 //        System.out.println();
-//        System.out.println(lista.calcularMedia());
+//        System.out.println(CalcEstadistica.calcularMedia(lista));
 
         // ---------------------- Leyendo los datos
         String PATH_DATOS = "/home/fernunex/Documents/Uni/4_sem/EstructuraDatos/ed_aldonso_2025/src/media/datosEstadistica/";
@@ -62,7 +65,14 @@ public class PrincipalEstadisticaHabitacionPrecio {
         ListaDinNumerica yPrecios = new ListaDinNumerica();
         yPrecios.agregarLista(yPreciosArreglo);
 
-
+        // Actividad 2: Calcule el coeficiente r de Pearson usando la fórmula
+        double coefPearson = CalcEstadistica.coeficientRPearson(xHabitaciones, yPrecios);
+        Salida.salidaPorDefecto("Valor del Coeficiente de Pearson: " +
+                coefPearson);
+        Salida.salidaPorDefecto("\nEl grado de Correlación entre las " +
+                        "Variables es: " +
+                        CalcEstadistica.interpreteCoefPearson(coefPearson) +
+                "\n");
 
 
 
