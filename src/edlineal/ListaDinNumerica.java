@@ -70,6 +70,17 @@ public class ListaDinNumerica extends ListaDin{
         }
     }
 
+    // Este metodo resta/suma un escalar a la lista actual
+    public void restarEscalar(double escalar){
+        iniciaIterador();
+        while (iteradorValido()){
+            iterador.setDato(
+                    ((double) obtenerIterador()) - escalar
+            );
+            moverIterador();
+        }
+    }
+
     // Este metodo retorna una ListaDinNumerica clonada de la actual
     @Override
     public ListaDatos clonar() {
@@ -83,4 +94,6 @@ public class ListaDinNumerica extends ListaDin{
 
         return listaClon;
     }
+
+
 }
