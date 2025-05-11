@@ -117,7 +117,7 @@ public class ListaDin implements ListaDatos{
             Salida.salidaPorDefecto(info + " --> ");
             temporal = temporal.getLigaDer();
         }
-        Salida.salidaPorDefecto("null");
+        Salida.salidaPorDefecto("null\n");
     }
 
     // Este metodo imprime en orden inverso la ListaDinamica

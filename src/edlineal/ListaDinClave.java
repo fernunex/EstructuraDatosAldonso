@@ -31,6 +31,7 @@ public class ListaDinClave implements ListaDatos{
                 return true;
             } else {
                 NodoClaveValor nuevo = new NodoClaveValor(clave, valor);
+                ultimo.setLigaDer(nuevo);
                 ultimo = nuevo;
                 nuevo.setLigaDer(null);
                 return true;
@@ -365,6 +366,7 @@ public class ListaDinClave implements ListaDatos{
             if (buscar(claves.obtenerIterador()) != null){ // Encontro uno igual
                 return false;
             }
+            claves.moverIterador();
         }
 
         // No hay repetidos
