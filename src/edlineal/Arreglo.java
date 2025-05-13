@@ -620,6 +620,17 @@ public class Arreglo implements VectorFijo{
         }
     }
 
+    // Este metodo retorna un ArregloNumerico del arreglo actual o null si no puede
+    public ArregloNumerico convertirArregloNumerico(){
+        ArregloNumerico arrNum = new ArregloNumerico(this.capacidad);
+        for (int indexVal = 0; indexVal < capacidad; indexVal++) {
+            if (arrNum.poner(obtener(indexVal)) == - 1){ // no lo pudo poner, retornamos null
+                return null;
+            }
+        }
+        return arrNum;
+    }
+
 
     // Este metodo retorna true si el indice pasado como argumento es valido en el arreglo actual
     // falso de otra manera.

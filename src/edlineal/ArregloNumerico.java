@@ -14,6 +14,14 @@ public class ArregloNumerico extends Arreglo{
     public Integer poner(Object valor) {
         if (isNumero(valor) == true){
             return super.poner(valor);
+        } else if (valor instanceof String) { // Tal vez lo que nos mandaron es un numero en formato de string
+            // si es asi, intentamos castearlo a double
+            try {
+                valor = Double.parseDouble(valor.toString());
+                return super.poner(valor);
+            } catch (Exception e) {
+                return -1;
+            }
         } else {
             return -1;
         }
@@ -187,6 +195,40 @@ public class ArregloNumerico extends Arreglo{
         }
 
 
+    }
+
+    // Este metodo le resta a cada posicion del arreglo actual la posicion correspondiente de lista2
+    // es decir, posicion1 - posicion1 de ambos arreglos.
+    public boolean restarLista(ArregloNumerico lista2){
+        // Validar dimensiones
+        if (indiceSuperior == lista2.getIndiceSuperior()){ // Son del mismo tamanio
+            Double valorLista, valorActual;
+            for (int indexSuma = 0; indexSuma <= indiceSuperior; indexSuma++){
+                valorActual = obtenerDouble(indexSuma);
+                valorLista = lista2.obtenerDouble(indexSuma);
+                datos[indexSuma] = valorActual - valorLista;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Este metodo le suma a cada posicion del arreglo actual la posicion correspondiente de lista2
+    // es decir, posicion1 + posicion1 de ambos arreglos.
+    public double sumatoria(){
+        // Validar dimensiones
+        double suma = 0;
+        if (indiceSuperior > 0){ // tiene values
+            Double valorActual;
+            for (int indexSuma = 0; indexSuma <= indiceSuperior; indexSuma++){
+                valorActual = obtenerDouble(indexSuma);
+                suma += valorActual;
+            }
+            return suma;
+        } else {
+            return suma;
+        }
     }
 
     // Este metodo multiplica el elemento de la posicion1 del arreglo actual por el elemento de la
