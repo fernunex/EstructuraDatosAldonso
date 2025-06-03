@@ -36,6 +36,40 @@ public class ArregloNumerico extends Arreglo{
         }
     }
 
+    // Este metodo encuentra el minimo en el arreglo numerico actual y lo retorna
+    public int indexMin(){
+        if (this.vacia() == true){
+            return -1;
+        } else {
+            double min = (double) obtener(0);
+            int indexMin = 0;
+            for (int index = 0; index < this.indiceSuperior; index++){
+                if (min > (double) obtener(index)){
+                    min = (double) obtener(index);
+                    indexMin = index;
+                }
+            }
+            return indexMin;
+        }
+    }
+
+    // Este metodo encuentra el maximo en el arreglo numerico actual y lo retorna
+    public int indexMax(){
+        if (this.vacia() == true){
+            return -1;
+        } else {
+            double max = obtener(0);
+            int indexMax = 0;
+            for (int index = 0; index < this.indiceSuperior; index++){
+                if (max < obtener(index)){
+                    max = obtener(index);
+                    indexMax = index;
+                }
+            }
+            return indexMax;
+        }
+    }
+
     @Override
     // Este metodo busca un valor numerico en el arreglo y retorna el indice de donde esta
     public Object buscar(Object valor) {

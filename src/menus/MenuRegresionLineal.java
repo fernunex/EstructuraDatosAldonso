@@ -54,5 +54,4 @@ public class MenuRegresionLineal {
         Salida.salidaPorDefecto(cadena);
         return Entrada.terminalCadenas();
     }
-
 }
